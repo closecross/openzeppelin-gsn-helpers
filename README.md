@@ -1,3 +1,5 @@
+:warning: This project is in **maintenance mode**. All development on the GSN has been moved to the [OpenGSN](https://github.com/opengsn) organization. Please refer to the [OpenGSN localgsn implementation](https://github.com/opengsn/localgsn). We will only be releasing fixes for high severity issues for this project until July 2020. Read [here](https://forum.openzeppelin.com/t/doubling-down-in-security/2712) for more info.
+
 # OpenZeppelin GSN Helpers
 
 [![NPM Package](https://img.shields.io/npm/v/@openzeppelin/gsn-helpers.svg)](https://www.npmjs.org/package/@openzeppelin/gsn-helpers)
@@ -68,8 +70,8 @@ NOTE: All of these actions require a [local blockchain](https://github.com/truff
 
 ## Learn More
 
- * Head to [Preparing a Testing Environment](docs/modules/ROOT/pages/preparing-a-testing-environment.adoc) to quickstart your project with ready-to-use GSN setup scripts.
- * For detailed usage information, take a look at the [API Reference](docs/modules/ROOT/pages/api.adoc).
+ * Head to [Preparing a Testing Environment](https://docs.openzeppelin.com/gsn-helpers/preparing-a-testing-environment) to quickstart your project with ready-to-use GSN setup scripts.
+ * For detailed usage information, take a look at the [API Reference](https://docs.openzeppelin.com/gsn-helpers/api).
 
 ## License
 
