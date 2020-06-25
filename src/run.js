@@ -40,15 +40,25 @@ async function runRelayer({
   if (devMode !== false) args.push('-DevMode');
 
   // Run it!
-  console.error(
+  console.log(
     `Starting relayer\n${binPath}\n${chunk(args, 2)
       .map(arr => ' ' + arr.join(' '))
       .join('\n')}`,
   );
-  return spawn(binPath, args, {
-    stdio: quiet || detach ? 'ignore' : 'inherit',
+
+  let stdio = 'pipe';
+  if (quiet) {
+    stdio = 'ignore';
+  } else if (detach) {
+    stdio = 'inherit';
+  }
+
+  const relayerProcess = spawn(binPath, args, {
+    stdio,
     detached: !!detach,
   });
+
+  return relayerProcess;
 }
 
 async function runAndRegister(web3, opts = {}) {
