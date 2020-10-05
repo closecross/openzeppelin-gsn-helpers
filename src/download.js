@@ -10,16 +10,16 @@ const REPOSITORY = 'OpenZeppelin/openzeppelin-gsn-helpers';
 const VERSION = 'v0.2.1';
 const BINARY = 'gsn-relay';
 const BINARY_PATH = `${envPaths('gsn').cache}/${BINARY}-${VERSION}`;
-const CHECKSUMS_PATH = `${envPaths('gsn').cache}/checksums.json`;
 
 async function ensureRelayer(path = BINARY_PATH) {
+  console.log("BINARY_PATH", BINARY_PATH)
   if (await hasRelayer(path)) return path;
   await downloadRelayer(path);
   return path;
 }
 
 async function hasRelayer(path = BINARY_PATH) {
-  return (await pathExists(path)) && (await binaryUncorrupted(path));
+  return (await pathExists(path));
 }
 
 async function downloadRelayer(path = BINARY_PATH) {
@@ -29,19 +29,12 @@ async function downloadRelayer(path = BINARY_PATH) {
   console.error(`Downloading relayer from ${url}`);
   await downloadFile(url, path);
 
-  if (!(await binaryUncorrupted(path))) {
-    // Remove the corrupt binary and checksums file - the issue could be in either of them
-    unlinkSync(path);
-    unlinkSync(CHECKSUMS_PATH);
-    throw Error(`Relayer binary integrity check failed, are there network issues?`);
-  }
-
   console.error(`Relayer downloaded to ${path}`);
   chmodSync(path, '775');
 }
 
 function getUrl() {
-  const baseUrl = `https://github.com/${REPOSITORY}/releases/download/${VERSION}/${BINARY}-${getPlatform()}-${getArch()}`;
+  const baseUrl = `https://github.com/closecross/gsn-v1-fork/releases/download/v1.0.0-fork/RelayHttpServer`;
   return baseUrl + (getPlatform() === 'windows' ? '.exe' : '');
 }
 
@@ -80,15 +73,6 @@ async function downloadFile(url, path) {
     writer.on('finish', resolve);
     writer.on('error', reject);
   });
-}
-
-async function binaryUncorrupted(path) {
-  if (!(await pathExists(CHECKSUMS_PATH))) {
-    await downloadFile(`https://github.com/${REPOSITORY}/releases/download/${VERSION}/checksums.json`, CHECKSUMS_PATH);
-  }
-
-  const checksums = JSON.parse(readFileSync(CHECKSUMS_PATH));
-  return checksums[getPlatform()][getArch()] === sha3(readFileSync(path));
 }
 
 module.exports = {
